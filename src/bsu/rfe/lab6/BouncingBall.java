@@ -59,6 +59,12 @@ public class BouncingBall implements Runnable {
         thisThread.start();
     }
 
+    public int getRadius(){
+        return radius;
+
+    }
+
+
     // Метод run() исполняется внутри потока. Когда он завершает работу,
     // то завершается и поток
     public void run() {
