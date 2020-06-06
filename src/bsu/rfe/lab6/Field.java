@@ -14,6 +14,8 @@ public class Field extends JPanel {
 
     // Флаг приостановленности движения
     private boolean paused;
+    private boolean paused1;
+    private boolean resumeLol;
     // Динамический список скачущих мячей
     private ArrayList<BouncingBall> balls = new ArrayList<BouncingBall>(10);
 
@@ -62,7 +64,20 @@ public class Field extends JPanel {
 
     }
 
+    public  void pause1() {
+        // Включить режим паузы
+        paused1 = true;
+        paused = true;
+        resumeLol = false;
 
+    }
+
+    public synchronized void resumeLol() {
+        // Включить режим паузы
+        paused = false;
+        resumeLol = true;
+        notifyAll();
+    }
     // Метод синхронизированный, т.е. только один поток может
     // одновременно быть внутри
     public synchronized void resume() {
@@ -78,9 +93,17 @@ public class Field extends JPanel {
             InterruptedException {
 
         if (paused) {
+            if (ball.getRadius() < 10)
                 wait();
         }
-
+        if(paused1)
+            if(resumeLol)
+            {
+                if (ball.getRadius() > 10)
+                    wait();
+            }
+            else
+                wait();
         // Если режим паузы включен, то поток, зашедший
         // внутрь данного метода, засыпает
         //wait();

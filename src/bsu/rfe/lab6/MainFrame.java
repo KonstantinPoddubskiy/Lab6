@@ -19,6 +19,8 @@ public class MainFrame extends JFrame {
     private static final int HEIGHT = 500;
 
     private JMenuItem pauseMenuItem;
+    private JMenuItem pause2MenuItem;
+    private JMenuItem pause1MenuItem;
     private JMenuItem resumeMenuItem;
 
     // Поле, по которому прыгают мячи
@@ -45,32 +47,73 @@ public class MainFrame extends JFrame {
                     // Ни один из пунктов меню не являются
                     // доступными - сделать доступным "Паузу"
                     pauseMenuItem.setEnabled(true);
+                    pause2MenuItem.setEnabled(true);
+                    pause2MenuItem.setEnabled(true);
+                    pause1MenuItem.setEnabled(false);
                 }
             }
         };
 
         menuBar.add(ballMenu);
         ballMenu.add(addBallAction);
+
         JMenu controlMenu = new JMenu("Управление");
         menuBar.add(controlMenu);
-        Action pauseAction = new AbstractAction("Приостановить движение"){
+        Action pause2Action = new AbstractAction("Приостановить движение мячей малого радиуса"){
             public void actionPerformed(ActionEvent event) {
                 field.pause();
-               pauseMenuItem.setEnabled(false);
-               resumeMenuItem.setEnabled(true);
+                pauseMenuItem.setEnabled(true);
+                pause2MenuItem.setEnabled(false);
+                resumeMenuItem.setEnabled(true);
+                pause1MenuItem.setEnabled(true);
             }
         };
+
+        pause2MenuItem = controlMenu.add(pause2Action);
+        pause2MenuItem.setEnabled(false);
+
+        Action pauseAction = new AbstractAction("Приостановить движение мячей"){
+            public void actionPerformed(ActionEvent event) {
+                field.pause1();
+                pauseMenuItem.setEnabled(false);
+                pause2MenuItem.setEnabled(false);
+                resumeMenuItem.setEnabled(true);
+                pause1MenuItem.setEnabled(true);
+            }
+        };
+
         pauseMenuItem = controlMenu.add(pauseAction);
         pauseMenuItem.setEnabled(false);
+
         Action resumeAction = new AbstractAction("Возобновить движение") {
             public void actionPerformed(ActionEvent event) {
-                field.resume();     pauseMenuItem.setEnabled(true);     resumeMenuItem.setEnabled(false);        }         };
+                field.resume();
+                pauseMenuItem.setEnabled(true);
+                pause2MenuItem.setEnabled(true);
+                resumeMenuItem.setEnabled(false);
+                pause1MenuItem.setEnabled(false);
+            }
+        };
+
         resumeMenuItem = controlMenu.add(resumeAction);
         resumeMenuItem.setEnabled(false);
+
+        Action pause1Action = new AbstractAction("Возобновить движение мячей малого радиуса"){
+            public void actionPerformed(ActionEvent event) {
+                field.resumeLol();
+                pauseMenuItem.setEnabled(true);
+                pause2MenuItem.setEnabled(true);
+                pause1MenuItem.setEnabled(false);
+                resumeMenuItem.setEnabled(true);
+            }
+        };
+
+        pause1MenuItem = controlMenu.add(pause1Action);
+        pause1MenuItem.setEnabled(false);
+
         // Добавить в центр граничной компоновки поле Field
-        getContentPane().add(field, BorderLayout.CENTER);    }
-
-
+        getContentPane().add(field, BorderLayout.CENTER);
+    }
 
     // Главный метод приложения
     public static void main(String[] args) {
